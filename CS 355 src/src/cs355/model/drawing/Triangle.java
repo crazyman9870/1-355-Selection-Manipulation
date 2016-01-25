@@ -28,6 +28,8 @@ public class Triangle extends Shape {
 
 		// Initialize the superclass.
 		super(color, center);
+		super.setShapeType(Shape.type.TRIANGLE);
+
 
 		// Set fields.
 		this.a = a;

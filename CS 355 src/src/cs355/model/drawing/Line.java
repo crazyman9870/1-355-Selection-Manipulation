@@ -22,11 +22,12 @@ public class Line extends Shape {
 
 		// Initialize the superclass.
 		super(color, start);
+		super.setShapeType(Shape.type.LINE);
 
 		// Set the field.
 		this.end = end;
 	}
-
+	
 	/**
 	 * Getter for this Line's ending point.
 	 * @return the ending point as a Java point.

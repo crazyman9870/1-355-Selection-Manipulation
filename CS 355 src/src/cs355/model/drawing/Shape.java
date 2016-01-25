@@ -3,12 +3,20 @@ package cs355.model.drawing;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 
+import cs355.model.drawing.Shape.type;
+
 /**
  * This is the base class for all of your shapes.
  * Make sure they all extend this class.
  */
 public abstract class Shape {
-
+	
+	// The shape type
+	public enum type {
+		CIRCLE, ELLIPSE, LINE, RECTANGLE, SQUARE, TRIANGLE, NONE
+	}
+	private type shapeType;
+	
 	// The color of this shape.
 	protected Color color;
 
@@ -17,6 +25,14 @@ public abstract class Shape {
 
 	// The rotation of this shape.
 	protected double rotation;
+	
+	public type getShapeType() {
+		return shapeType;
+	}
+
+	public void setShapeType(type shapeType) {
+		this.shapeType = shapeType;
+	}
 
 	/**
 	 * Basic constructor that sets fields.

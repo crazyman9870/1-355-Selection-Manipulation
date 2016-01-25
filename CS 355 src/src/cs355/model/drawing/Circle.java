@@ -11,6 +11,7 @@ public class Circle extends Shape {
 
 	// The radius.
 	private double radius;
+	private Point2D.Double upperLeft;
 
 	/**
 	 * Basic constructor that sets all fields.
@@ -22,9 +23,11 @@ public class Circle extends Shape {
 
 		// Initialize the superclass.
 		super(color, center);
+		super.setShapeType(Shape.type.CIRCLE);
 
 		// Set the field.
 		this.radius = radius;
+		this.upperLeft = center;
 	}
 
 	/**
@@ -41,6 +44,14 @@ public class Circle extends Shape {
 	 */
 	public void setRadius(double radius) {
 		this.radius = radius;
+	}
+
+	public Point2D.Double getUpperLeft() {
+		return upperLeft;
+	}
+
+	public void setUpperLeft(Point2D.Double upperLeft) {
+		this.upperLeft = upperLeft;
 	}
 
 	/**

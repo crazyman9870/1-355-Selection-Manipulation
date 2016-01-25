@@ -11,6 +11,8 @@ public class Square extends Shape {
 
 	// The size of this Square.
 	private double size;
+	
+	private Point2D.Double upperLeft;
 
 	/**
 	 * Basic constructor that sets all fields.
@@ -22,9 +24,11 @@ public class Square extends Shape {
 
 		// Initialize the superclass.
 		super(color, center);
+		super.setShapeType(Shape.type.SQUARE);
 
 		// Set the field.
 		this.size = size;
+		this.upperLeft = center;
 	}
 
 	/**
@@ -41,6 +45,14 @@ public class Square extends Shape {
 	 */
 	public void setSize(double size) {
 		this.size = size;
+	}
+	
+	public Point2D.Double getUpperLeft() {
+		return upperLeft;
+	}
+
+	public void setUpperLeft(Point2D.Double upperLeft) {
+		this.upperLeft = upperLeft;
 	}
 
 	/**

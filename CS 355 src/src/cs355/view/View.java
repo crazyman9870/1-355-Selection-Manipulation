@@ -37,7 +37,7 @@ public class View implements ViewRefresher {
 		
 		if(currentShape.getShapeType() == Shape.type.LINE) {
 			Line line = (Line)currentShape;
-			Point2D.Double start = new Point2D.Double(line.getStart().x, line.getStart().y);		
+			Point2D.Double start = new Point2D.Double(line.getCenter().x, line.getCenter().y);		
 			Point2D.Double end = new Point2D.Double(line.getEnd().x, line.getEnd().y);
 			
 			return new Line2D.Double(start.x, start.y, end.x, end.y);
