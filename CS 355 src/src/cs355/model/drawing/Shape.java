@@ -45,6 +45,13 @@ public abstract class Shape {
 		this.center = center;
 		rotation = 0.0;
 	}
+	
+	public Shape(Shape predefined) {
+		this.shapeType = predefined.getShapeType();
+		this.color = predefined.getColor();
+		this.center = predefined.getCenter();
+		this.rotation = predefined.getRotation();
+	}
 
 	/**
 	 * Getter for this shape's color.

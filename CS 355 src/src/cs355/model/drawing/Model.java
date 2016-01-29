@@ -1,19 +1,24 @@
 package cs355.model.drawing;
 
+import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Observer;
+
+import javafx.scene.shape.Shape;
 
 public class Model extends CS355Drawing {
 
 	//Use a singleton so that the model can be accessed by the view when repainting
 	private static Model _instance;
 	
-	private Shape.type currentMode = Shape.type.NONE;
+	private Shape.type currentShape;
 	private Color selectedColor;
+	private int selectedShapeIndex;
 	private ArrayList<Shape> shapes;
-	private ArrayList<Observer> observers;
+
 
 	//If the model had not been initialized, it will be.
 	public static Model instance() {
@@ -23,9 +28,20 @@ public class Model extends CS355Drawing {
 	}
 	
 	public Model() {
-		selectedColor = Color.WHITE;
+		currentShape = Shape.type.NONE;
+		selectedColor = Color.GREEN;
+		selectedShapeIndex = -1;
 		shapes = new ArrayList<Shape>();
-		observers = new ArrayList<Observer>();
+	}
+	
+	//Notifies the observers
+	public void notifyObservers() {
+		super.notifyObservers();
+	}
+	
+	private void updateView() {
+		this.setChanged();
+		this.notifyObservers();
 	}
 	
 	public void setColor(Color c) {	
@@ -37,11 +53,28 @@ public class Model extends CS355Drawing {
 	public Color getColor()	{
 		return selectedColor;
 	}
+		
+	public int getSelectedShapeIndex() {
+		return selectedShapeIndex;
+	}
+
+	public void setSelectedShapeIndex(int selectedShapeIndex) {
+		this.selectedShapeIndex = selectedShapeIndex;
+	}
 	
-	//Notifies the observers
-	public void notifyObservers() {
-		super.notifyObservers();
-//		System.out.println("Update Issued");
+	public int selectShape(Point2D.Double pt, double tolerance) {
+		
+		for(int i = shapes.size() - 1; i >= 0; i--) {
+			Shape s = shapes.get(i);
+			if(s.pointInShape(pt, tolerance)) {
+				selectedShapeIndex = i;
+				updateView();
+				return selectedShapeIndex;
+			}
+		}
+		selectedShapeIndex = -1;
+		updateView();
+		return selectedShapeIndex;
 	}
 	
 	@Override
@@ -92,7 +125,8 @@ public class Model extends CS355Drawing {
 
 	@Override
 	public List<Shape> getShapesReversed() {
-		// TODO Auto-generated method stub
+		ArrayList<Shape> copy = new ArrayList<>();
+		Collections.reverse(copy);
 		return null;
 	}
 
@@ -101,12 +135,12 @@ public class Model extends CS355Drawing {
 		this.shapes = (ArrayList<Shape>) shapes;
 	}
 
-	public Shape.type getCurrentMode() {
-		return currentMode;
+	public Shape.type getCurrentShape() {
+		return currentShape;
 	}
 
-	public void setCurrentMode(Shape.type currentMode) {
-		this.currentMode = currentMode;
+	public void setCurrentShape(Shape.type currentMode) {
+		this.currentShape = currentMode;
 //		System.out.println(currentMode.name());
 	}
 

@@ -51,7 +51,7 @@ public class Controller implements CS355Controller {
 		else {
 			if(!shapeSelected) {
 				
-				switch(Model.instance().getCurrentMode()) {
+				switch(Model.instance().getCurrentShape()) {
 				case LINE:
 					Model.instance().addShape(new Line(Model.instance().getColor(), new Point2D.Double(arg0.getX(), arg0.getY()), new Point2D.Double(arg0.getX(), arg0.getY())));
 					shapeSelected = true;
@@ -151,37 +151,37 @@ public class Controller implements CS355Controller {
 
 	@Override
 	public void lineButtonHit() {
-		Model.instance().setCurrentMode(Shape.type.LINE);
+		Model.instance().setCurrentShape(Shape.type.LINE);
 		if(triangleActive) triangleActiveCleanUp();
 	}
 
 	@Override
 	public void squareButtonHit() {
-		Model.instance().setCurrentMode(Shape.type.SQUARE);
+		Model.instance().setCurrentShape(Shape.type.SQUARE);
 		if(triangleActive) triangleActiveCleanUp();
 	}
 
 	@Override
 	public void rectangleButtonHit() {
-		Model.instance().setCurrentMode(Shape.type.RECTANGLE);
+		Model.instance().setCurrentShape(Shape.type.RECTANGLE);
 		if(triangleActive) triangleActiveCleanUp();
 	}
 
 	@Override
 	public void circleButtonHit() {
-		Model.instance().setCurrentMode(Shape.type.CIRCLE);
+		Model.instance().setCurrentShape(Shape.type.CIRCLE);
 		if(triangleActive) triangleActiveCleanUp();
 	}
 
 	@Override
 	public void ellipseButtonHit() {
-		Model.instance().setCurrentMode(Shape.type.ELLIPSE);
+		Model.instance().setCurrentShape(Shape.type.ELLIPSE);
 		if(triangleActive) triangleActiveCleanUp();
 	}
 
 	@Override
 	public void triangleButtonHit() {
-		Model.instance().setCurrentMode(Shape.type.TRIANGLE);
+		Model.instance().setCurrentShape(Shape.type.TRIANGLE);
 		triangleActive = true;
 	}
 	
