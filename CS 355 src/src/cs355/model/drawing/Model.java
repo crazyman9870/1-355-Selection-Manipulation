@@ -1,13 +1,10 @@
 package cs355.model.drawing;
 
-import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import javafx.scene.shape.Shape;
 
 public class Model extends CS355Drawing {
 
