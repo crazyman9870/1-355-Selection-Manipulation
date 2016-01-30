@@ -11,8 +11,6 @@ public class Square extends Shape {
 
 	// The size of this Square.
 	private double size;
-	
-	private Point2D.Double upperLeft;
 
 	/**
 	 * Basic constructor that sets all fields.
@@ -28,7 +26,6 @@ public class Square extends Shape {
 
 		// Set the field.
 		this.size = size;
-		this.upperLeft = center;
 	}
 
 	/**
@@ -47,14 +44,6 @@ public class Square extends Shape {
 		this.size = size;
 	}
 	
-	public Point2D.Double getUpperLeft() {
-		return upperLeft;
-	}
-
-	public void setUpperLeft(Point2D.Double upperLeft) {
-		this.upperLeft = upperLeft;
-	}
-
 	/**
 	 * Add your code to do an intersection test
 	 * here. You shouldn't need the tolerance.

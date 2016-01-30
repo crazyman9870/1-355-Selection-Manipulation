@@ -14,8 +14,6 @@ public class Ellipse extends Shape {
 
 	// The height of this shape.
 	private double height;
-	
-	private Point2D.Double upperLeft;
 
 	/**
 	 * Basic constructor that sets all fields.
@@ -33,7 +31,6 @@ public class Ellipse extends Shape {
 		// Set fields.
 		this.width = width;
 		this.height = height;
-		this.upperLeft = center;
 	}
 
 	/**
@@ -66,14 +63,6 @@ public class Ellipse extends Shape {
 	 */
 	public void setHeight(double height) {
 		this.height = height;
-	}
-	
-	public Point2D.Double getUpperLeft() {
-		return upperLeft;
-	}
-
-	public void setUpperLeft(Point2D.Double upperLeft) {
-		this.upperLeft = upperLeft;
 	}
 
 	/**
