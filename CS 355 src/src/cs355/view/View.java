@@ -2,6 +2,7 @@ package cs355.view;
 
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -25,8 +26,16 @@ public class View implements ViewRefresher {
 		
 		for(int i = 0; i < shapes.size(); i++) {
 			Shape currentShape = shapes.get(i);
-			
+
+			//Sets the color for the graphics object
 			g2d.setColor(currentShape.getColor());
+			
+			AffineTransform objToWorld = new AffineTransform();
+			// translate, rotate and then sets the transform 
+			objToWorld.translate(currentShape.getCenter().getX(), currentShape.getCenter().getY());
+			objToWorld.rotate(currentShape.getRotation());
+			g2d.setTransform(objToWorld);
+			//Draw the object
 			g2d.fill(shapeFactory(currentShape)); //Uses the factory to determine the current shape to set the fill
 			g2d.draw(shapeFactory(currentShape)); //Uses the factory to determine the current shape to draw the image
 		}
@@ -39,46 +48,33 @@ public class View implements ViewRefresher {
 			Line line = (Line)currentShape;
 			Point2D.Double start = new Point2D.Double(line.getCenter().x, line.getCenter().y);		
 			Point2D.Double end = new Point2D.Double(line.getEnd().x, line.getEnd().y);
-			
-			return new Line2D.Double(start.x, start.y, end.x, end.y);
+			return new Line2D.Double(0, 0, end.x - start.x, end.y - start.y);
 		}
 
 		if(currentShape.getShapeType() == Shape.type.SQUARE) {
 			//create a Square from Rectangle2D object and return it
-			double x = ((Square) currentShape).getUpperLeft().x;
-			double y = ((Square) currentShape).getUpperLeft().y;
-			double width = ((Square) currentShape).getSize();
-			
-			return new Rectangle2D.Double(x, y, width, width);
+			double sideLength = ((Square) currentShape).getSize();
+			return new Rectangle2D.Double(-sideLength/2, -sideLength/2, sideLength, sideLength);
 		}
 		
 		if(currentShape.getShapeType() == Shape.type.RECTANGLE)	{
 			//create a Rectangle2D object and return it
-			double x = ((Rectangle) currentShape).getUpperLeft().x;
-			double y = ((Rectangle) currentShape).getUpperLeft().y;
 			double width = ((Rectangle) currentShape).getWidth();
 			double height = ((Rectangle) currentShape).getHeight();
-			
-			return new Rectangle2D.Double(x, y, width, height);
+			return new Rectangle2D.Double(-width/2, -height/2, width, height);
 		}
 		
 		if(currentShape.getShapeType() == Shape.type.CIRCLE) {
 			//create a Circle2D object and return it
-			double x = ((Circle) currentShape).getUpperLeft().x;
-			double y = ((Circle) currentShape).getUpperLeft().y;
-			double radius = ((Circle) currentShape).getRadius();
-			
-			return new Ellipse2D.Double(x, y, radius * 2, radius * 2);
+			double diameter = ((Circle) currentShape).getRadius() * 2;
+			return new Ellipse2D.Double(-diameter/2, -diameter/2, diameter, diameter);
 		}
 		
 		if(currentShape.getShapeType() == Shape.type.ELLIPSE) {
 			//create a Ellipse2D object and return it
-			double x = ((Ellipse) currentShape).getUpperLeft().x;
-			double y = ((Ellipse) currentShape).getUpperLeft().y;
 			double width = ((Ellipse) currentShape).getWidth();
 			double height = ((Ellipse) currentShape).getHeight();
-			
-			return new Ellipse2D.Double(x, y, width, height);
+			return new Ellipse2D.Double(-width/2, -height/2, width, height);
 		}
 		
 		if(currentShape.getShapeType() == Shape.type.TRIANGLE) {
