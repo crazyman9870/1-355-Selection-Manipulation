@@ -43,7 +43,7 @@ public class Controller implements CS355Controller {
 	public void mouseClicked(MouseEvent arg0) {
 		if(controllerMode == Mode.SELECT) {
 			this.currentShapeIndex = Model.instance().selectShape(new Point2D.Double(arg0.getX(), arg0.getY()), 5);
-			System.out.println(currentShapeIndex);
+//			System.out.println(currentShapeIndex);
 		}
 	}
 	

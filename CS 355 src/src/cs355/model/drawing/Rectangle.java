@@ -76,10 +76,10 @@ public class Rectangle extends Shape {
 	 */
 	@Override
 	public boolean pointInShape(Point2D.Double pt, double tolerance) {
-//		AffineTransform worldToObj = new AffineTransform();
-//		worldToObj.rotate(-rotation);
-//		worldToObj.translate(-center.getX(), -center.getY());
-//		worldToObj.transform(pt, pt);
+		AffineTransform worldToObj = new AffineTransform();
+		worldToObj.rotate(-rotation);
+		worldToObj.translate(-center.getX(), -center.getY());
+		worldToObj.transform(pt, pt);
 		
 		double boundryX = width/2;
 		double boundryY = height/2;

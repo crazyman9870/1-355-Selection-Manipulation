@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import cs355.GUIFunctions;
+
 public class Model extends CS355Drawing {
 
 	//Use a singleton so that the model can be accessed by the view when repainting
@@ -37,7 +39,9 @@ public class Model extends CS355Drawing {
 	}
 	
 	public void setColor(Color c) {	
-		selectedColor = c;	
+		selectedColor = c;
+		if(selectedShapeIndex != -1)
+			shapes.get(selectedShapeIndex).setColor(c);
 		changeMade();
 	}
 	
@@ -55,11 +59,13 @@ public class Model extends CS355Drawing {
 	}
 	
 	public int selectShape(Point2D.Double pt, double tolerance) {
-		
 		for(int i = shapes.size() - 1; i >= 0; i--) {
+			Point2D.Double ptCopy = new Point2D.Double(pt.getX(), pt.getY());
 			Shape s = shapes.get(i);
-			if(s.pointInShape(pt, tolerance)) {
+			if(s.pointInShape(ptCopy, tolerance)) {
 				selectedShapeIndex = i;
+				selectedColor = s.getColor();
+				GUIFunctions.changeSelectedColor(selectedColor);
 				changeMade();
 				return selectedShapeIndex;
 			}

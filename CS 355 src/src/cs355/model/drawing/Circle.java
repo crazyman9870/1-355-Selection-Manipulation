@@ -1,6 +1,7 @@
 package cs355.model.drawing;
 
 import java.awt.Color;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 /**
@@ -54,6 +55,7 @@ public class Circle extends Shape {
 	 */
 	@Override
 	public boolean pointInShape(Point2D.Double pt, double tolerance) {
+		
 		double lengthX = pt.getX() - center.getX();
 		double lengthY = pt.getY() - center.getY();
 		double circleArea = Math.sqrt(Math.pow(lengthX, 2) + Math.pow(lengthY, 2));
