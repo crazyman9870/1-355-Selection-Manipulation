@@ -1,6 +1,7 @@
 package cs355.model.drawing;
 
 import java.awt.Color;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 /**
@@ -95,7 +96,15 @@ public class Triangle extends Shape {
 	 */
 	@Override
 	public boolean pointInShape(Point2D.Double pt, double tolerance) {
-		throw new UnsupportedOperationException("Not supported yet.");
+		double ABC = Math.abs (a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y));
+		double ABP = Math.abs (a.x * (b.y - pt.y) + b.x * (pt.y - a.y) + pt.x * (a.y - b.y));
+		double APC = Math.abs (a.x * (pt.y - c.y) + pt.x * (c.y - a.y) + c.x * (a.y - pt.y));
+		double PBC = Math.abs (pt.x * (b.y - c.y) + b.x * (c.y - pt.y) + c.x * (pt.y - b.y));
+
+		boolean isInTriangle = ABP + APC + PBC == ABC;
+		if (isInTriangle)
+			System.out.println("Triangle Selected");
+		return isInTriangle;
 	}
 
 }
