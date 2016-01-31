@@ -12,8 +12,6 @@ import cs355.model.drawing.*;
 
 public class Controller implements CS355Controller {
 
-	private boolean shapeSelected = false;
-	private boolean triangleActive = false;
 	private int currentShapeIndex = -1;
 	private Point2D.Double mouseDragStart = null;
 	private ArrayList<Point2D> triangleCoordinates = new ArrayList<>();
@@ -27,7 +25,9 @@ public class Controller implements CS355Controller {
 	
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		//TODO
+		if(controllerMode == Mode.SELECT) {
+			this.currentShapeIndex = Model.instance().selectShape(new Point2D.Double(arg0.getX(), arg0.getY()), 5);
+		}
 	}
 	
 	private double calculateCenterTriangle(double coord1, double coord2, double coord3) {
@@ -36,54 +36,51 @@ public class Controller implements CS355Controller {
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		if (triangleActive) {
-			Point2D.Double point = new Point2D.Double(arg0.getX(), arg0.getY());
-			this.triangleCoordinates.add(point);
-			
-			if (this.triangleCoordinates.size() == 3) 
-			{
-				Point2D.Double point1 = new Point2D.Double(this.triangleCoordinates.get(0).getX(), this.triangleCoordinates.get(0).getY());
-				Point2D.Double point2 = new Point2D.Double(this.triangleCoordinates.get(1).getX(), this.triangleCoordinates.get(1).getY());
-				Point2D.Double point3 = new Point2D.Double(this.triangleCoordinates.get(2).getX(), this.triangleCoordinates.get(2).getY());
-								
-				Point2D.Double center = new Point2D.Double(this.calculateCenterTriangle(point1.getX(), point2.getX(), point3.getX()),
-						this.calculateCenterTriangle(point1.getY(), point2.getY(), point3.getY()));
+		
+		if(controllerMode == Mode.SHAPE) {
 				
-				Triangle triangle = new Triangle(Model.instance().getColor(), center, point1, point2, point3);
-				Model.instance().addShape(triangle);
-				this.triangleCoordinates.clear();
-				Model.instance().changeMade();
+			if(Model.instance().getCurrentShape() == Shape.type.TRIANGLE) {
+				Point2D.Double point = new Point2D.Double(arg0.getX(), arg0.getY());
+				this.triangleCoordinates.add(point);
+				
+				if (this.triangleCoordinates.size() == 3) 
+				{
+					Point2D.Double point1 = new Point2D.Double(this.triangleCoordinates.get(0).getX(), this.triangleCoordinates.get(0).getY());
+					Point2D.Double point2 = new Point2D.Double(this.triangleCoordinates.get(1).getX(), this.triangleCoordinates.get(1).getY());
+					Point2D.Double point3 = new Point2D.Double(this.triangleCoordinates.get(2).getX(), this.triangleCoordinates.get(2).getY());
+									
+					Point2D.Double center = new Point2D.Double(this.calculateCenterTriangle(point1.getX(), point2.getX(), point3.getX()),
+							this.calculateCenterTriangle(point1.getY(), point2.getY(), point3.getY()));
+					
+					Triangle triangle = new Triangle(Model.instance().getColor(), center, point1, point2, point3);
+					Model.instance().addShape(triangle);
+					this.triangleCoordinates.clear();
+					Model.instance().changeMade();
+				}
 			}
-		}
-		else {
-			if(!shapeSelected) {
-				
+			else {
+			
 				switch(Model.instance().getCurrentShape()) {
 				case LINE:
 					Model.instance().addShape(new Line(Model.instance().getColor(), new Point2D.Double(arg0.getX(), arg0.getY()), new Point2D.Double(arg0.getX(), arg0.getY())));
-					shapeSelected = true;
 					break;
 				case SQUARE: 
 					Model.instance().addShape(new Square(Model.instance().getColor(), new Point2D.Double(arg0.getX(), arg0.getY()), 0));
 					this.mouseDragStart = new Point2D.Double(arg0.getX(), arg0.getY());
-					shapeSelected = true;
 					break;
 				case RECTANGLE: 
 					Model.instance().addShape(new Rectangle(Model.instance().getColor(), new Point2D.Double(arg0.getX(), arg0.getY()),0, 0));
 					this.mouseDragStart = new Point2D.Double(arg0.getX(), arg0.getY());
-					shapeSelected = true;
 					break;
 				case CIRCLE: 
 					Model.instance().addShape(new Circle(Model.instance().getColor(), new Point2D.Double(arg0.getX(), arg0.getY()),0));
 					this.mouseDragStart = new Point2D.Double(arg0.getX(), arg0.getY());
-					shapeSelected = true;
 					break;
 				case ELLIPSE: 
 					Model.instance().addShape(new Ellipse(Model.instance().getColor(), new Point2D.Double(arg0.getX(), arg0.getY()),0, 0));
 					this.mouseDragStart = new Point2D.Double(arg0.getX(), arg0.getY());
-					shapeSelected = true;
 					break;
-				case TRIANGLE: 
+				case TRIANGLE:
 					break;
 				case NONE:
 					break;
@@ -96,7 +93,7 @@ public class Controller implements CS355Controller {
 
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
-		if(shapeSelected) {
+		if(controllerMode == Mode.SHAPE && Model.instance().getCurrentShape() != Shape.type.TRIANGLE) {
 			Shape currentShape = Model.instance().getLastShape();
 			
 			switch(currentShape.getShapeType()) {
@@ -128,10 +125,7 @@ public class Controller implements CS355Controller {
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		if (shapeSelected){
-			shapeSelected = false;
-			//call set center on the shapes
-		}
+		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -164,47 +158,36 @@ public class Controller implements CS355Controller {
 	public void lineButtonHit() {
 		Model.instance().setCurrentShape(Shape.type.LINE);
 		switchStates(Mode.SHAPE);
-		if(triangleActive) triangleActiveCleanUp();
 	}
 
 	@Override
 	public void squareButtonHit() {
 		Model.instance().setCurrentShape(Shape.type.SQUARE);
 		switchStates(Mode.SHAPE);
-		if(triangleActive) triangleActiveCleanUp();
 	}
 
 	@Override
 	public void rectangleButtonHit() {
 		Model.instance().setCurrentShape(Shape.type.RECTANGLE);
 		switchStates(Mode.SHAPE);
-		if(triangleActive) triangleActiveCleanUp();
 	}
 
 	@Override
 	public void circleButtonHit() {
 		Model.instance().setCurrentShape(Shape.type.CIRCLE);
 		switchStates(Mode.SHAPE);
-		if(triangleActive) triangleActiveCleanUp();
 	}
 
 	@Override
 	public void ellipseButtonHit() {
 		Model.instance().setCurrentShape(Shape.type.ELLIPSE);
 		switchStates(Mode.SHAPE);
-		if(triangleActive) triangleActiveCleanUp();
 	}
 
 	@Override
 	public void triangleButtonHit() {
 		Model.instance().setCurrentShape(Shape.type.TRIANGLE);
 		switchStates(Mode.SHAPE);
-		triangleActive = true;
-	}
-	
-	public void triangleActiveCleanUp() {
-		this.triangleActive = false;
-		this.triangleCoordinates.clear();
 	}
 	
 	@Override
@@ -229,6 +212,7 @@ public class Controller implements CS355Controller {
 		this.controllerMode = m;
 		this.currentShapeIndex = -1;
 		this.mouseDragStart = null;
+		this.triangleCoordinates.clear();
 		Model.instance().setSelectedShapeIndex(-1);
 	}
 	

@@ -3,8 +3,6 @@ package cs355.model.drawing;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 
-import cs355.model.drawing.Shape.type;
-
 /**
  * This is the base class for all of your shapes.
  * Make sure they all extend this class.
