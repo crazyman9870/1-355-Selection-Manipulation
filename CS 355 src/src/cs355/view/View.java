@@ -82,13 +82,13 @@ public class View implements ViewRefresher {
 			int[] x = new int[3];
 			int[] y = new int[3];
 			
-			x[0] = (int) ((Triangle) currentShape).getA().x;
-			x[1] = (int) ((Triangle) currentShape).getB().x;
-			x[2] = (int) ((Triangle) currentShape).getC().x;
+			x[0] = (int) (((Triangle) currentShape).getA().x - ((Triangle) currentShape).getCenter().x);
+			x[1] = (int) (((Triangle) currentShape).getB().x - ((Triangle) currentShape).getCenter().x);
+			x[2] = (int) (((Triangle) currentShape).getC().x - ((Triangle) currentShape).getCenter().x);
 			
-			y[0] = (int) ((Triangle) currentShape).getA().y;
-			y[1] = (int) ((Triangle) currentShape).getB().y;
-			y[2] = (int) ((Triangle) currentShape).getC().y;
+			y[0] = (int) (((Triangle) currentShape).getA().y - ((Triangle) currentShape).getCenter().y);
+			y[1] = (int) (((Triangle) currentShape).getB().y - ((Triangle) currentShape).getCenter().y);
+			y[2] = (int) (((Triangle) currentShape).getC().y - ((Triangle) currentShape).getCenter().y);
 			
 			Polygon tri = new Polygon();
 			tri.addPoint(x[0], y[0]);
