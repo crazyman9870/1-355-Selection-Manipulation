@@ -98,7 +98,7 @@ public class Model extends CS355Drawing {
 	}
 
 	@Override
-	public void movetoBack(int index) {
+	public void moveToBack(int index) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -69,7 +69,7 @@ public class Line extends Shape {
 		x0 += Math.cos(degree);
 		
 		if(x0 <= (Math.max(x1, x2)+tolerance) && x0 >= (Math.min(x1, x2)-tolerance) && y0 <= (Math.max(y1, y2)+tolerance) && y0 >= (Math.min(y1, y2)-tolerance)) {
-			System.out.println("in");
+			System.out.println("Line Selected");
 			return true;
 		}
 		return false;

@@ -459,6 +459,44 @@ public class Controller implements CS355Controller {
 		Model.instance().setLastShape(ellipse);
 	}
 	
+	/* Menu Buttons */
+
+	@Override
+	public void saveDrawing(File file) {
+		Model.instance().save(file);
+	}
+
+	@Override
+	public void openDrawing(File file) {
+		Model.instance().open(file);
+		GUIFunctions.refresh();
+	}
+	
+
+	@Override
+	public void doMoveForward() {
+		if(this.currentShapeIndex != -1)
+			Model.instance().moveForward(currentShapeIndex);
+	}
+
+	@Override
+	public void doMoveBackward() {
+		if(this.currentShapeIndex != -1)
+			Model.instance().moveBackward(currentShapeIndex);
+	}
+
+	@Override
+	public void doSendToFront() {
+		if(this.currentShapeIndex != -1)
+			Model.instance().moveToFront(currentShapeIndex);
+	}
+
+	@Override
+	public void doSendtoBack() {
+		if(this.currentShapeIndex != -1)
+			Model.instance().moveToBack(currentShapeIndex);
+	}
+	
 	/* Implement Later */
 	
 	@Override
@@ -510,17 +548,6 @@ public class Controller implements CS355Controller {
 	}
 
 	@Override
-	public void saveDrawing(File file) {
-		Model.instance().save(file);
-	}
-
-	@Override
-	public void openDrawing(File file) {
-		Model.instance().open(file);
-		GUIFunctions.refresh();
-	}
-
-	@Override
 	public void doDeleteShape() {
 		// TODO Auto-generated method stub
 
@@ -564,30 +591,6 @@ public class Controller implements CS355Controller {
 
 	@Override
 	public void doChangeBrightness(int brightnessAmountNum) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void doMoveForward() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void doMoveBackward() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void doSendToFront() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void doSendtoBack() {
 		// TODO Auto-generated method stub
 
 	}

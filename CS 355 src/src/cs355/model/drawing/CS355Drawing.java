@@ -66,7 +66,7 @@ public abstract class CS355Drawing extends Observable {
 	 * Move the shape at a certain index to the back of the list.
 	 * @param index = the index of the shape to move to the back.
 	 */
-	public abstract void movetoBack(int index);
+	public abstract void moveToBack(int index);
 
 	/**
 	 * Move the shape at a certain index forward one slot.
