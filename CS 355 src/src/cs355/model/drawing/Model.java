@@ -89,31 +89,55 @@ public class Model extends CS355Drawing {
 
 	@Override
 	public void deleteShape(int index) {
+		if(shapes.size() <= index || index < 0)
+			return;
+		
 		shapes.remove(index);
+		selectedShapeIndex = -1;
 	}
 
 	@Override
 	public void moveToFront(int index) {
-		// TODO Auto-generated method stub
+		if(shapes.size() <= index || index < 0)
+			return;
 		
+		Shape s = shapes.get(index);
+		shapes.remove(index);
+		shapes.add(s);
+		selectedShapeIndex = shapes.size() - 1;
 	}
 
 	@Override
 	public void moveToBack(int index) {
-		// TODO Auto-generated method stub
+		if(shapes.size() <= index || index < 0)
+			return;
 		
+		Shape s = shapes.get(index);
+		shapes.remove(index);
+		shapes.add(0, s);
+		selectedShapeIndex = 0;
 	}
 
 	@Override
 	public void moveForward(int index) {
-		// TODO Auto-generated method stub
+		if(shapes.size() - 1 <= index || index < 0)
+			return;
 		
+		Shape s = shapes.get(index);
+		shapes.remove(index);
+		shapes.add(index + 1, s);
+		selectedShapeIndex = index + 1;
 	}
 
 	@Override
 	public void moveBackward(int index) {
-		// TODO Auto-generated method stub
+		if(shapes.size() <= index || index <= 0)
+			return;
 		
+		Shape s = shapes.get(index);
+		shapes.remove(index);
+		shapes.add(index - 1, s);
+		selectedShapeIndex = index - 1; 
 	}
 
 	@Override

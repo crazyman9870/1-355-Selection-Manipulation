@@ -138,6 +138,25 @@ public class Controller implements CS355Controller {
 			}
 			GUIFunctions.refresh();
 		}
+		if(controllerMode == Mode.SELECT && currentShapeIndex != -1) {
+			Shape currentShape = Model.instance().getLastShape();
+			
+			switch(currentShape.getShapeType()) {
+			case LINE:
+				break;
+			case SQUARE:
+			case RECTANGLE:
+			case CIRCLE:
+			case ELLIPSE:
+			case TRIANGLE:
+				break;
+			case NONE:
+				break;
+			default:
+				break;
+			}
+			GUIFunctions.refresh();
+		}
 	}
 
 	@Override
@@ -209,7 +228,6 @@ public class Controller implements CS355Controller {
 	
 	@Override
 	public void selectButtonHit() {
-		// TODO Auto-generated method stub
 		switchStates(Mode.SELECT);
 	}
 
@@ -492,32 +510,42 @@ public class Controller implements CS355Controller {
 
 	@Override
 	public void doMoveForward() {
-		if(this.currentShapeIndex != -1)
+		if(this.currentShapeIndex != -1) {
 			Model.instance().moveForward(currentShapeIndex);
+			currentShapeIndex = Model.instance().getSelectedShapeIndex();
+		}
 	}
 
 	@Override
 	public void doMoveBackward() {
-		if(this.currentShapeIndex != -1)
+		if(this.currentShapeIndex != -1) {
 			Model.instance().moveBackward(currentShapeIndex);
+			currentShapeIndex = Model.instance().getSelectedShapeIndex();
+		}
 	}
 
 	@Override
 	public void doSendToFront() {
-		if(this.currentShapeIndex != -1)
+		if(this.currentShapeIndex != -1) {
 			Model.instance().moveToFront(currentShapeIndex);
+			currentShapeIndex = Model.instance().getSelectedShapeIndex();
+		}
 	}
 
 	@Override
 	public void doSendtoBack() {
-		if(this.currentShapeIndex != -1)
+		if(this.currentShapeIndex != -1) {
 			Model.instance().moveToBack(currentShapeIndex);
+			currentShapeIndex = Model.instance().getSelectedShapeIndex();
+		}
 	}
 	
 	@Override
 	public void doDeleteShape() {
-		if(this.currentShapeIndex != -1)
+		if(this.currentShapeIndex != -1) {
 			Model.instance().deleteShape(currentShapeIndex);
+			currentShapeIndex = Model.instance().getSelectedShapeIndex();
+		}
 	}
 	
 	/* Implement Later */

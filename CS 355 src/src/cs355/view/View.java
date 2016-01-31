@@ -1,5 +1,6 @@
 package cs355.view;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.geom.AffineTransform;
@@ -23,10 +24,10 @@ public class View implements ViewRefresher {
 	@Override
 	public void refreshView(Graphics2D g2d) {
 		ArrayList<Shape> shapes = (ArrayList<Shape>) Model.instance().getShapes();
-		
+		int selectedShapeIndex = Model.instance().getSelectedShapeIndex();
 		for(int i = 0; i < shapes.size(); i++) {
 			Shape currentShape = shapes.get(i);
-
+			
 			//Sets the color for the graphics object
 			g2d.setColor(currentShape.getColor());
 			
@@ -36,24 +37,41 @@ public class View implements ViewRefresher {
 			objToWorld.rotate(currentShape.getRotation());
 			g2d.setTransform(objToWorld);
 			//Draw the object
-			g2d.fill(shapeFactory(currentShape)); //Uses the factory to determine the current shape to set the fill
-			g2d.draw(shapeFactory(currentShape)); //Uses the factory to determine the current shape to draw the image
+			g2d.fill(shapeFactory(currentShape, g2d, false)); //Uses the factory to determine the current shape to set the fill.
+			g2d.draw(shapeFactory(currentShape, g2d, selectedShapeIndex == i)); //Uses the factory to determine the current shape to draw the image
+			g2d.setColor(currentShape.getColor());
 		}
 	}
 	
 	//Use a factory to determine what type is being dealt with
-	public java.awt.Shape shapeFactory(Shape currentShape) {
+	public java.awt.Shape shapeFactory(Shape currentShape, Graphics2D g2d, boolean selected) {
 		
 		if(currentShape.getShapeType() == Shape.type.LINE) {
 			Line line = (Line)currentShape;
 			Point2D.Double start = new Point2D.Double(line.getCenter().x, line.getCenter().y);		
 			Point2D.Double end = new Point2D.Double(line.getEnd().x, line.getEnd().y);
+			if(selected) {
+				g2d.setColor(new Color(255, 131, 0));
+				if(start.x < end.x && start.y < end.y)
+					g2d.drawRect((int)start.x/100, (int)start.y/100, (int)Math.abs(end.x - start.x), (int)Math.abs(end.y - start.y));
+				else if(start.x < end.x && start.y > end.y)
+					g2d.drawRect((int)start.x/100, (int)(start.y/100 - Math.abs(end.y - start.y) - 5), (int)Math.abs(end.x - start.x), (int)Math.abs(end.y - start.y));
+				else if(start.x > end.x && start.y < end.y)
+					g2d.drawRect((int)(start.x/100 - Math.abs(end.x - start.x) - 5), (int)(start.y/100), (int)Math.abs(end.x - start.x), (int)Math.abs(end.y - start.y));
+				else
+					g2d.drawRect((int)(start.x/100 - Math.abs(end.x - start.x) - 5), (int)(start.y/100 - Math.abs(end.y - start.y) - 5), (int)Math.abs(end.x - start.x), (int)Math.abs(end.y - start.y));
+				g2d.setColor(currentShape.getColor());
+			}			
 			return new Line2D.Double(0, 0, end.x - start.x, end.y - start.y);
 		}
 
 		if(currentShape.getShapeType() == Shape.type.SQUARE) {
 			//create a Square from Rectangle2D object and return it
 			double sideLength = ((Square) currentShape).getSize();
+			if(selected) {
+				g2d.setColor(new Color(255, 131, 0));
+				g2d.drawRect((int)-sideLength/2, (int)-sideLength/2, (int)sideLength, (int)sideLength);
+			}
 			return new Rectangle2D.Double(-sideLength/2, -sideLength/2, sideLength, sideLength);
 		}
 		
@@ -61,12 +79,21 @@ public class View implements ViewRefresher {
 			//create a Rectangle2D object and return it
 			double width = ((Rectangle) currentShape).getWidth();
 			double height = ((Rectangle) currentShape).getHeight();
+			if(selected) {
+				g2d.setColor(new Color(255, 131, 0));
+				g2d.drawRect((int)-width/2, (int)-height/2, (int)width, (int)height);
+			}
 			return new Rectangle2D.Double(-width/2, -height/2, width, height);
 		}
 		
 		if(currentShape.getShapeType() == Shape.type.CIRCLE) {
 			//create a Circle2D object and return it
 			double diameter = ((Circle) currentShape).getRadius() * 2;
+			if(selected) {
+				g2d.setColor(new Color(255, 131, 0));
+				g2d.drawRect((int)-diameter/2, (int)-diameter/2, (int)diameter, (int)diameter);
+				g2d.setColor(currentShape.getColor());
+			}
 			return new Ellipse2D.Double(-diameter/2, -diameter/2, diameter, diameter);
 		}
 		
@@ -74,6 +101,11 @@ public class View implements ViewRefresher {
 			//create a Ellipse2D object and return it
 			double width = ((Ellipse) currentShape).getWidth();
 			double height = ((Ellipse) currentShape).getHeight();
+			if(selected) {
+				g2d.setColor(new Color(255, 131, 0));
+				g2d.drawRect((int)-width/2, (int)-height/2, (int)width, (int)height);
+				g2d.setColor(currentShape.getColor());
+			}
 			return new Ellipse2D.Double(-width/2, -height/2, width, height);
 		}
 		
@@ -94,6 +126,12 @@ public class View implements ViewRefresher {
 			tri.addPoint(x[0], y[0]);
 			tri.addPoint(x[1], y[1]);
 			tri.addPoint(x[2], y[2]);
+			
+			if(selected) {
+				g2d.setColor(new Color(255, 131, 0));
+				g2d.draw(tri);
+			}
+			
 			return tri;
 		}
 		
