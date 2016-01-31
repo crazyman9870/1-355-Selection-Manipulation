@@ -75,7 +75,16 @@ public class Ellipse extends Shape {
 	 */
 	@Override
 	public boolean pointInShape(Point2D.Double pt, double tolerance) {
-		throw new UnsupportedOperationException("Not supported yet.");
+		double lengthX = pt.getX() - center.getX();
+		double lengthY = pt.getY() - center.getY();
+		double radiusX = width/2 + tolerance;
+		double radiusY = height/2 + tolerance;
+		double diameterX = Math.pow(lengthX, 2) / Math.pow(radiusX, 2);
+		double diameterY = Math.pow((lengthY), 2) / Math.pow(radiusY, 2);
+		
+		if(diameterX + diameterY <= 1)
+			System.out.println("Ellipse Selected");
+		return (diameterX + diameterY <= 1);
 	}
 
 }

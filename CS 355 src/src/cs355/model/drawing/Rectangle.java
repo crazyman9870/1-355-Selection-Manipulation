@@ -1,6 +1,7 @@
 package cs355.model.drawing;
 
 import java.awt.Color;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 /**
@@ -75,7 +76,16 @@ public class Rectangle extends Shape {
 	 */
 	@Override
 	public boolean pointInShape(Point2D.Double pt, double tolerance) {
-		throw new UnsupportedOperationException("Not supported yet.");
+//		AffineTransform worldToObj = new AffineTransform();
+//		worldToObj.rotate(-rotation);
+//		worldToObj.translate(-center.getX(), -center.getY());
+//		worldToObj.transform(pt, pt);
+		
+		double boundryX = width/2;
+		double boundryY = height/2;
+		if(((-boundryX<=pt.getX() && pt.getX()<=boundryX) && (-boundryY<=pt.getY() && pt.getY()<=boundryY)))
+			System.out.println("Rectangle Selected");
+		return ((-boundryX<=pt.getX() && pt.getX()<=boundryX) && (-boundryY<=pt.getY() && pt.getY()<=boundryY));
 	}
 
 }

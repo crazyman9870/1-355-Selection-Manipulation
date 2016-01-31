@@ -36,15 +36,9 @@ public class Model extends CS355Drawing {
 		super.notifyObservers();
 	}
 	
-	private void updateView() {
-		this.setChanged();
-		this.notifyObservers();
-	}
-	
 	public void setColor(Color c) {	
 		selectedColor = c;	
-		setChanged();
-		notifyObservers();
+		changeMade();
 	}
 	
 	public Color getColor()	{
@@ -57,6 +51,7 @@ public class Model extends CS355Drawing {
 
 	public void setSelectedShapeIndex(int selectedShapeIndex) {
 		this.selectedShapeIndex = selectedShapeIndex;
+		changeMade();
 	}
 	
 	public int selectShape(Point2D.Double pt, double tolerance) {
@@ -65,12 +60,12 @@ public class Model extends CS355Drawing {
 			Shape s = shapes.get(i);
 			if(s.pointInShape(pt, tolerance)) {
 				selectedShapeIndex = i;
-				updateView();
+				changeMade();
 				return selectedShapeIndex;
 			}
 		}
 		selectedShapeIndex = -1;
-		updateView();
+		changeMade();
 		return selectedShapeIndex;
 	}
 	
@@ -138,7 +133,6 @@ public class Model extends CS355Drawing {
 
 	public void setCurrentShape(Shape.type currentMode) {
 		this.currentShape = currentMode;
-//		System.out.println(currentMode.name());
 	}
 
 	public Color getSelectedColor() {

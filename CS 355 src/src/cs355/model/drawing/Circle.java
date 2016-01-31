@@ -54,7 +54,12 @@ public class Circle extends Shape {
 	 */
 	@Override
 	public boolean pointInShape(Point2D.Double pt, double tolerance) {
-		throw new UnsupportedOperationException("Not supported yet.");
+		double lengthX = pt.getX() - center.getX();
+		double lengthY = pt.getY() - center.getY();
+		double circleArea = Math.sqrt(Math.pow(lengthX, 2) + Math.pow(lengthY, 2));
+		if(((radius + tolerance) >= circleArea))
+			System.out.println("Circle Selected");
+		return ((radius + tolerance) >= circleArea);
 	}
 
 }

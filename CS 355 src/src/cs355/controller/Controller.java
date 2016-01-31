@@ -21,12 +21,29 @@ public class Controller implements CS355Controller {
 		SHAPE, SELECT, ZOOM_IN, ZOOM_OUT, NONE
 	}
 	
-	/* Mouse Events */
+	public int getCurrentShapeIndex() {
+		return currentShapeIndex;
+	}
+
+	public void setCurrentShapeIndex(int currentShapeIndex) {
+		this.currentShapeIndex = currentShapeIndex;
+	}
+
+	public Mode getControllerMode() {
+		return controllerMode;
+	}
+
+	public void setControllerMode(Mode controllerMode) {
+		this.controllerMode = controllerMode;
+	}
 	
+	/* Mouse Events */
+
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		if(controllerMode == Mode.SELECT) {
 			this.currentShapeIndex = Model.instance().selectShape(new Point2D.Double(arg0.getX(), arg0.getY()), 5);
+			System.out.println(currentShapeIndex);
 		}
 	}
 	
@@ -497,6 +514,12 @@ public class Controller implements CS355Controller {
 			Model.instance().moveToBack(currentShapeIndex);
 	}
 	
+	@Override
+	public void doDeleteShape() {
+		if(this.currentShapeIndex != -1)
+			Model.instance().deleteShape(currentShapeIndex);
+	}
+	
 	/* Implement Later */
 	
 	@Override
@@ -543,12 +566,6 @@ public class Controller implements CS355Controller {
 
 	@Override
 	public void toggleBackgroundDisplay() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void doDeleteShape() {
 		// TODO Auto-generated method stub
 
 	}
