@@ -256,7 +256,7 @@ public class Controller implements CS355Controller {
 		this.triangleCoordinates.clear();
 		Model.instance().setSelectedShapeIndex(-1);
 	}
-	
+
 	/* Shape Handlers */
 		
 	public void handleActiveLine(MouseEvent arg0) {
@@ -502,7 +502,15 @@ public class Controller implements CS355Controller {
 	
 	public void handleLineTransformation(MouseEvent arg0) {
 		//TODO
-//		Line line = (Line) Model.instance().getShape(currentShapeIndex);
+		Line line = (Line) Model.instance().getShape(currentShapeIndex);
+		if(line.pointNearCenter(new Point2D.Double(arg0.getX(), arg0.getY()), 10))
+		{
+			line.setCenter(new Point2D.Double(arg0.getX(), arg0.getY()));
+		}
+		else if(line.pointNearEnd(new Point2D.Double(arg0.getX(), arg0.getY()), 10))
+		{
+			line.setEnd(new Point2D.Double(arg0.getX(), arg0.getY()));
+		}
 	}
 	
 	public void handleShapeTransformation(MouseEvent arg0) {
@@ -534,11 +542,6 @@ public class Controller implements CS355Controller {
 		triangle.setC(newC);
 		triangle.setCenter(new Point2D.Double(this.calculateCenterTriangle(triangle.getA().getX(), triangle.getB().getX(), triangle.getC().getX()),
 				this.calculateCenterTriangle(triangle.getA().getY(), triangle.getB().getY(), triangle.getC().getY())));
-//		Point2D.Double newCenter = new Point2D.Double(mouseDragStart.x + changeX, mouseDragStart.y + changeY);
-//		triangle.setCenter(new Point2D.Double(mouseDragStart.x + changeX, mouseDragStart.y + changeY));
-//		triangle.setA(new Point2D.Double(triangle.getCenter().getX() + aXdelta, triangle.getCenter().getY() + aYdelta));
-//		triangle.setB(new Point2D.Double(triangle.getCenter().getX() + bXdelta, triangle.getCenter().getY() + bYdelta));
-//		triangle.setB(new Point2D.Double(triangle.getCenter().getX() + cXdelta, triangle.getCenter().getY() + cYdelta));
 		
 		Model.instance().setShapeByIndex(currentShapeIndex, triangle);
 	}

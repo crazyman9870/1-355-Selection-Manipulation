@@ -74,5 +74,16 @@ public class Line extends Shape {
 		}
 		return false;
 	}
-
+	
+	public boolean pointNearCenter(Point2D.Double pt, double tolerance) {
+		if(Math.abs(center.getX() - pt.getX()) <= tolerance && Math.abs(center.getY() - pt.getY()) <= tolerance)
+			return true;
+		return false;
+	}
+	
+	public boolean pointNearEnd(Point2D.Double pt, double tolerance) {
+		if(Math.abs(end.getX() - pt.getX()) <= tolerance && Math.abs(end.getY() - pt.getY()) <= tolerance)
+			return true;
+		return false;
+	}
 }
