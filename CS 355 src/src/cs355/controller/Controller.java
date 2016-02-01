@@ -514,31 +514,32 @@ public class Controller implements CS355Controller {
 	}
 	
 	public void handleTriangleTransformation(MouseEvent arg0) {
-		
 		Triangle triangle = (Triangle) Model.instance().getShape(currentShapeIndex);
-
 		double changeX = arg0.getX() - mouseDragStart.getX();
 		double changeY = arg0.getY() - mouseDragStart.getY();
 		
-		double ax = triangle.getA().getX() + changeX;
-		double bx = triangle.getB().getX() + changeX;
-		double cx = triangle.getC().getX() + changeX;
-		double ay = triangle.getA().getY() + changeY;
-		double by = triangle.getB().getY() + changeY;
-		double cy = triangle.getC().getY() + changeY;
+		double aXdelta = triangle.getA().getX() - triangle.getCenter().getX();
+		double bXdelta = triangle.getB().getX() - triangle.getCenter().getX();
+		double cXdelta = triangle.getC().getX() - triangle.getCenter().getX();
+		double aYdelta = triangle.getA().getY() - triangle.getCenter().getY();
+		double bYdelta = triangle.getB().getY() - triangle.getCenter().getY();
+		double cYdelta = triangle.getC().getY() - triangle.getCenter().getY();
 		
-		Point2D.Double newA = new Point2D.Double(ax, ay);
-		Point2D.Double newB = new Point2D.Double(bx, by);
-		Point2D.Double newC = new Point2D.Double(cx, cy);
+		Point2D.Double newA = new Point2D.Double(mouseDragStart.x + changeX + aXdelta, mouseDragStart.y + changeY + aYdelta);
+		Point2D.Double newB = new Point2D.Double(mouseDragStart.x + changeX + bXdelta, mouseDragStart.y + changeY + bYdelta);
+		Point2D.Double newC = new Point2D.Double(mouseDragStart.x + changeX + cXdelta, mouseDragStart.y + changeY + cYdelta);
 
 		triangle.setA(newA);
 		triangle.setB(newB);
 		triangle.setC(newC);
-		
-		triangle.setCenter(new Point2D.Double(this.calculateCenterTriangle(ax, bx, cx),
-				this.calculateCenterTriangle(ay, by, cy)));
+		triangle.setCenter(new Point2D.Double(this.calculateCenterTriangle(triangle.getA().getX(), triangle.getB().getX(), triangle.getC().getX()),
+				this.calculateCenterTriangle(triangle.getA().getY(), triangle.getB().getY(), triangle.getC().getY())));
+//		Point2D.Double newCenter = new Point2D.Double(mouseDragStart.x + changeX, mouseDragStart.y + changeY);
 //		triangle.setCenter(new Point2D.Double(mouseDragStart.x + changeX, mouseDragStart.y + changeY));
-
+//		triangle.setA(new Point2D.Double(triangle.getCenter().getX() + aXdelta, triangle.getCenter().getY() + aYdelta));
+//		triangle.setB(new Point2D.Double(triangle.getCenter().getX() + bXdelta, triangle.getCenter().getY() + bYdelta));
+//		triangle.setB(new Point2D.Double(triangle.getCenter().getX() + cXdelta, triangle.getCenter().getY() + cYdelta));
+		
 		Model.instance().setShapeByIndex(currentShapeIndex, triangle);
 	}
 	
