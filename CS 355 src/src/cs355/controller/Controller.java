@@ -597,6 +597,7 @@ public class Controller implements CS355Controller {
 		if(this.currentShapeIndex != -1) {
 			Model.instance().deleteShape(currentShapeIndex);
 			currentShapeIndex = Model.instance().getSelectedShapeIndex();
+			Model.instance().changeMade();
 		}
 	}
 	

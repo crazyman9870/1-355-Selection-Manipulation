@@ -136,6 +136,12 @@ public class View implements ViewRefresher {
 			if(selected) {
 				g2d.setColor(new Color(255, 131, 0));
 				g2d.draw(tri);
+				if(y[0] <= y[1] && y[0] <= y[2])
+					g2d.drawOval(x[0]-6, y[0] - 15, 11, 11);
+				else if(y[1] <= y[0] && y[1] <= y[2])
+					g2d.drawOval(x[1]-6, y[1] - 15, 11, 11);
+				else if(y[2] <= y[1] && y[2] <= y[0])
+					g2d.drawOval(x[2]-6, y[2] - 15, 11, 11);
 			}
 			
 			return tri;
