@@ -13,6 +13,7 @@ import cs355.model.drawing.*;
 public class Controller implements CS355Controller {
 
 	private int currentShapeIndex = -1;
+	private boolean rotating = false;
 	private Point2D.Double mouseDragStart = null;
 	private ArrayList<Point2D> triangleCoordinates = new ArrayList<>();
 	private Mode controllerMode = Mode.NONE;
@@ -104,9 +105,14 @@ public class Controller implements CS355Controller {
 			}
 		}
 		if(controllerMode == Mode.SELECT) {
-			this.currentShapeIndex = Model.instance().selectShape(new Point2D.Double(arg0.getX(), arg0.getY()), 5);
-			if(currentShapeIndex != -1)
-				this.mouseDragStart = new Point2D.Double(arg0.getX(), arg0.getY());
+			if(Model.instance().mousePressedInRotationHandle(new Point2D.Double(arg0.getX(), arg0.getY()), 5))
+				rotating = true;
+			else {
+				this.currentShapeIndex = Model.instance().selectShape(new Point2D.Double(arg0.getX(), arg0.getY()), 5);
+				if(currentShapeIndex != -1) {
+						this.mouseDragStart = new Point2D.Double(arg0.getX(), arg0.getY());
+				}
+			}
 		}
 	}
 
@@ -141,25 +147,31 @@ public class Controller implements CS355Controller {
 			GUIFunctions.refresh();
 		}
 		if(controllerMode == Mode.SELECT && currentShapeIndex != -1) {
-			Shape.type type = Model.instance().getShape(currentShapeIndex).getShapeType();
 			
-			switch(type) {
-			case LINE:
-				this.handleLineTransformation(arg0);
-				break;
-			case SQUARE:
-			case RECTANGLE:
-			case CIRCLE:
-			case ELLIPSE:
-				this.handleShapeTransformation(arg0);
-				break;
-			case TRIANGLE:
-				this.handleTriangleTransformation(arg0);
-				break;
-			case NONE:
-				break;
-			default:
-				break;
+			if(rotating) {
+				rotateShape(currentShapeIndex, arg0);
+			}
+			else {
+				Shape.type type = Model.instance().getShape(currentShapeIndex).getShapeType();
+				
+				switch(type) {
+				case LINE:
+					this.handleLineTransformation(arg0);
+					break;
+				case SQUARE:
+				case RECTANGLE:
+				case CIRCLE:
+				case ELLIPSE:
+					this.handleShapeTransformation(arg0);
+					break;
+				case TRIANGLE:
+					this.handleTriangleTransformation(arg0);
+					break;
+				case NONE:
+					break;
+				default:
+					break;
+				}
 			}
 			GUIFunctions.refresh();
 		}
@@ -167,7 +179,10 @@ public class Controller implements CS355Controller {
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+		if(controllerMode == Mode.SELECT && currentShapeIndex != -1) {
+			rotating = false;
+			this.mouseDragStart=null;
+		}
 	}
 
 	@Override

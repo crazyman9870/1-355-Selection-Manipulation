@@ -29,7 +29,7 @@ public class Model extends CS355Drawing {
 	
 	public Model() {
 		currentShape = Shape.type.NONE;
-		selectedColor = Color.GREEN;
+		selectedColor = Color.WHITE;
 		selectedShapeIndex = -1;
 		shapes = new ArrayList<Shape>();
 	}
@@ -78,6 +78,9 @@ public class Model extends CS355Drawing {
 	
 	public boolean mousePressedInRotationHandle(Point2D.Double pt, double tolerance)
 	{
+		if(selectedShapeIndex == -1)
+			return false;
+		
 		Shape shape = shapes.get(selectedShapeIndex);
 		double height = -1;
 		switch(shape.getShapeType())

@@ -1,5 +1,7 @@
 package cs355.solution;
 
+import java.awt.Color;
+
 import cs355.GUIFunctions;
 import cs355.controller.Controller;
 import cs355.model.drawing.Model;
@@ -23,7 +25,7 @@ public class CS355 {
 		Model.instance().addObserver(view);
 		
 		GUIFunctions.createCS355Frame(controller, view);
-
+		GUIFunctions.changeSelectedColor(Color.WHITE);
 		GUIFunctions.refresh();
 	}
 }
