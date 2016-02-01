@@ -546,6 +546,16 @@ public class Controller implements CS355Controller {
 		Model.instance().setShapeByIndex(currentShapeIndex, triangle);
 	}
 	
+	public void rotateShape(int index, MouseEvent arg0)
+	{ 
+		Shape shape = Model.instance().getShape(currentShapeIndex);
+		double xdelta = shape.getCenter().getX()-arg0.getX();
+		double ydelta = shape.getCenter().getY()-arg0.getY();
+		double angle = Math.atan2(ydelta, xdelta) - Math.PI / 2;
+		shape.setRotation(angle % (2*Math.PI));
+		Model.instance().changeMade();
+	}
+	
 	/* Menu Buttons */
 
 	@Override
