@@ -79,6 +79,11 @@ public class Model extends CS355Drawing {
 	public Shape getShape(int index) {
 		return shapes.get(index);
 	}
+	
+	public void setShapeByIndex(int index, Shape newShape) {
+		shapes.remove(index);
+		shapes.add(index, newShape);
+	}
 
 	@Override
 	public int addShape(Shape s) {

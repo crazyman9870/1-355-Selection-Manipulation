@@ -41,10 +41,7 @@ public class Controller implements CS355Controller {
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		if(controllerMode == Mode.SELECT) {
-			this.currentShapeIndex = Model.instance().selectShape(new Point2D.Double(arg0.getX(), arg0.getY()), 5);
-//			System.out.println(currentShapeIndex);
-		}
+
 	}
 	
 	private double calculateCenterTriangle(double coord1, double coord2, double coord3) {
@@ -106,6 +103,11 @@ public class Controller implements CS355Controller {
 				}
 			}
 		}
+		if(controllerMode == Mode.SELECT) {
+			this.currentShapeIndex = Model.instance().selectShape(new Point2D.Double(arg0.getX(), arg0.getY()), 5);
+			if(currentShapeIndex != -1)
+				this.mouseDragStart = new Point2D.Double(arg0.getX(), arg0.getY());
+		}
 	}
 
 	@Override
@@ -139,16 +141,20 @@ public class Controller implements CS355Controller {
 			GUIFunctions.refresh();
 		}
 		if(controllerMode == Mode.SELECT && currentShapeIndex != -1) {
-			Shape currentShape = Model.instance().getLastShape();
+			Shape.type type = Model.instance().getShape(currentShapeIndex).getShapeType();
 			
-			switch(currentShape.getShapeType()) {
+			switch(type) {
 			case LINE:
+				this.handleLineTransformation(arg0);
 				break;
 			case SQUARE:
 			case RECTANGLE:
 			case CIRCLE:
 			case ELLIPSE:
+				this.handleShapeTransformation(arg0);
+				break;
 			case TRIANGLE:
+				this.handleTriangleTransformation(arg0);
 				break;
 			case NONE:
 				break;
@@ -253,16 +259,16 @@ public class Controller implements CS355Controller {
 	
 	/* Shape Handlers */
 		
-	public void handleActiveLine(MouseEvent arg0)
-	{		
+	public void handleActiveLine(MouseEvent arg0) {
+		
 		Line line = (Line) Model.instance().getLastShape();
 		line.setEnd(new Point2D.Double(arg0.getX(), arg0.getY()));
 		
 		Model.instance().setLastShape(line);
 	}
 	
-	public void handleActiveSquare(MouseEvent arg0)
-	{
+	
+	public void handleActiveSquare(MouseEvent arg0)	{
 		
 		Square square = (Square) Model.instance().getLastShape();
 		//if the cursor is moving below the upper left corner
@@ -320,8 +326,7 @@ public class Controller implements CS355Controller {
 		Model.instance().setLastShape(square);
 	}
 	
-	public void handleActiveRectangle(MouseEvent arg0)
-	{
+	public void handleActiveRectangle(MouseEvent arg0) {
 		
 		Rectangle rectangle = (Rectangle) Model.instance().getLastShape();
 		//if the cursor is moving below the upper left corner
@@ -378,8 +383,8 @@ public class Controller implements CS355Controller {
 		Model.instance().setLastShape(rectangle);
 	}
 	
-	public void handleActiveCircle(MouseEvent arg0)
-	{
+	
+	public void handleActiveCircle(MouseEvent arg0) {
 		
 		Circle circle = (Circle) Model.instance().getLastShape();
 		//if the cursor is moving below the upper left corner
@@ -436,8 +441,8 @@ public class Controller implements CS355Controller {
 		Model.instance().setLastShape(circle);
 	}
 	
-	public void handleActiveEllipse(MouseEvent arg0)
-	{
+	
+	public void handleActiveEllipse(MouseEvent arg0) {
 		
 		Ellipse ellipse = (Ellipse) Model.instance().getLastShape();
 		//if the cursor is moving below the upper left corner
@@ -492,6 +497,49 @@ public class Controller implements CS355Controller {
 			}
 		}
 		Model.instance().setLastShape(ellipse);
+	}
+	
+	
+	public void handleLineTransformation(MouseEvent arg0) {
+		//TODO
+//		Line line = (Line) Model.instance().getShape(currentShapeIndex);
+	}
+	
+	public void handleShapeTransformation(MouseEvent arg0) {
+		Shape shape = Model.instance().getShape(currentShapeIndex);
+		double changeX = arg0.getX() - mouseDragStart.getX();
+		double changeY = arg0.getY() - mouseDragStart.getY();
+		shape.setCenter(new Point2D.Double(mouseDragStart.x + changeX, mouseDragStart.y + changeY));
+		Model.instance().setShapeByIndex(currentShapeIndex, shape);
+	}
+	
+	public void handleTriangleTransformation(MouseEvent arg0) {
+		
+		Triangle triangle = (Triangle) Model.instance().getShape(currentShapeIndex);
+
+		double changeX = arg0.getX() - mouseDragStart.getX();
+		double changeY = arg0.getY() - mouseDragStart.getY();
+		
+		double ax = triangle.getA().getX() + changeX;
+		double bx = triangle.getB().getX() + changeX;
+		double cx = triangle.getC().getX() + changeX;
+		double ay = triangle.getA().getY() + changeY;
+		double by = triangle.getB().getY() + changeY;
+		double cy = triangle.getC().getY() + changeY;
+		
+		Point2D.Double newA = new Point2D.Double(ax, ay);
+		Point2D.Double newB = new Point2D.Double(bx, by);
+		Point2D.Double newC = new Point2D.Double(cx, cy);
+
+		triangle.setA(newA);
+		triangle.setB(newB);
+		triangle.setC(newC);
+		
+		triangle.setCenter(new Point2D.Double(this.calculateCenterTriangle(ax, bx, cx),
+				this.calculateCenterTriangle(ay, by, cy)));
+//		triangle.setCenter(new Point2D.Double(mouseDragStart.x + changeX, mouseDragStart.y + changeY));
+
+		Model.instance().setShapeByIndex(currentShapeIndex, triangle);
 	}
 	
 	/* Menu Buttons */
