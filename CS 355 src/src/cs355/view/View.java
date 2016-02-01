@@ -52,14 +52,16 @@ public class View implements ViewRefresher {
 			Point2D.Double end = new Point2D.Double(line.getEnd().x, line.getEnd().y);
 			if(selected) {
 				g2d.setColor(new Color(255, 131, 0));
-				if(start.x < end.x && start.y < end.y)
-					g2d.drawRect((int)start.x/100, (int)start.y/100, (int)Math.abs(end.x - start.x), (int)Math.abs(end.y - start.y));
-				else if(start.x < end.x && start.y > end.y)
-					g2d.drawRect((int)start.x/100, (int)(start.y/100 - Math.abs(end.y - start.y) - 5), (int)Math.abs(end.x - start.x), (int)Math.abs(end.y - start.y));
-				else if(start.x > end.x && start.y < end.y)
-					g2d.drawRect((int)(start.x/100 - Math.abs(end.x - start.x) - 5), (int)(start.y/100), (int)Math.abs(end.x - start.x), (int)Math.abs(end.y - start.y));
-				else
-					g2d.drawRect((int)(start.x/100 - Math.abs(end.x - start.x) - 5), (int)(start.y/100 - Math.abs(end.y - start.y) - 5), (int)Math.abs(end.x - start.x), (int)Math.abs(end.y - start.y));
+//				if(start.x < end.x && start.y < end.y)
+//					g2d.drawRect((int)start.x/100, (int)start.y/100, (int)Math.abs(end.x - start.x), (int)Math.abs(end.y - start.y));
+//				else if(start.x < end.x && start.y > end.y)
+//					g2d.drawRect((int)start.x/100, (int)(start.y/100 - Math.abs(end.y - start.y) - 5), (int)Math.abs(end.x - start.x), (int)Math.abs(end.y - start.y));
+//				else if(start.x > end.x && start.y < end.y)
+//					g2d.drawRect((int)(start.x/100 - Math.abs(end.x - start.x) - 5), (int)(start.y/100), (int)Math.abs(end.x - start.x), (int)Math.abs(end.y - start.y));
+//				else
+//					g2d.drawRect((int)(start.x/100 - Math.abs(end.x - start.x) - 5), (int)(start.y/100 - Math.abs(end.y - start.y) - 5), (int)Math.abs(end.x - start.x), (int)Math.abs(end.y - start.y));
+				g2d.drawOval(-6, -6, 11, 11); //center
+				g2d.drawOval((int)(line.getEnd().getX()-line.getCenter().getX())-6, (int)(line.getEnd().getY()-line.getCenter().getY())-6, 11, 11); //end
 				g2d.setColor(currentShape.getColor());
 			}			
 			return new Line2D.Double(0, 0, end.x - start.x, end.y - start.y);
@@ -71,6 +73,7 @@ public class View implements ViewRefresher {
 			if(selected) {
 				g2d.setColor(new Color(255, 131, 0));
 				g2d.drawRect((int)-sideLength/2, (int)-sideLength/2, (int)sideLength, (int)sideLength);
+				g2d.drawOval(-6, (int)-sideLength/2 - 15, 11, 11);
 			}
 			return new Rectangle2D.Double(-sideLength/2, -sideLength/2, sideLength, sideLength);
 		}
@@ -82,6 +85,7 @@ public class View implements ViewRefresher {
 			if(selected) {
 				g2d.setColor(new Color(255, 131, 0));
 				g2d.drawRect((int)-width/2, (int)-height/2, (int)width, (int)height);
+				g2d.drawOval(-6, (int)(-height/2 - 15), 11, 11);
 			}
 			return new Rectangle2D.Double(-width/2, -height/2, width, height);
 		}
@@ -92,6 +96,7 @@ public class View implements ViewRefresher {
 			if(selected) {
 				g2d.setColor(new Color(255, 131, 0));
 				g2d.drawRect((int)-diameter/2, (int)-diameter/2, (int)diameter, (int)diameter);
+				g2d.drawOval(-6, (int)-diameter/2 - 15, 11, 11);
 				g2d.setColor(currentShape.getColor());
 			}
 			return new Ellipse2D.Double(-diameter/2, -diameter/2, diameter, diameter);
@@ -104,6 +109,7 @@ public class View implements ViewRefresher {
 			if(selected) {
 				g2d.setColor(new Color(255, 131, 0));
 				g2d.drawRect((int)-width/2, (int)-height/2, (int)width, (int)height);
+				g2d.drawOval(-6, (int)(-height/2 - 15), 11, 11);
 				g2d.setColor(currentShape.getColor());
 			}
 			return new Ellipse2D.Double(-width/2, -height/2, width, height);
