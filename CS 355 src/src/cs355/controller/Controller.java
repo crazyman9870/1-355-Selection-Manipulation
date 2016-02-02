@@ -518,14 +518,28 @@ public class Controller implements CS355Controller {
 	public void handleLineTransformation(MouseEvent arg0) {
 		//TODO
 		Line line = (Line) Model.instance().getShape(currentShapeIndex);
-		if(line.pointNearCenter(new Point2D.Double(arg0.getX(), arg0.getY()), 10))
-		{
+		if(line.pointNearCenter(new Point2D.Double(arg0.getX(), arg0.getY()), 10)) {
 			line.setCenter(new Point2D.Double(arg0.getX(), arg0.getY()));
 		}
-		else if(line.pointNearEnd(new Point2D.Double(arg0.getX(), arg0.getY()), 10))
-		{
+		else if(line.pointNearEnd(new Point2D.Double(arg0.getX(), arg0.getY()), 10)) {
 			line.setEnd(new Point2D.Double(arg0.getX(), arg0.getY()));
 		}
+//		else if(line.pointInShape(new Point2D.Double(arg0.getX(), arg0.getY()), 10)) {
+//			double changeX = arg0.getX() - mouseDragStart.getX();
+//			double changeY = arg0.getY() - mouseDragStart.getY();
+//			
+//			double centerXdelta = line.getCenter().getX() - triangle.getCenter().getX();
+//			double endXdelta = line.getEnd().getX() - triangle.getCenter().getX();
+//			double centerYdelta = line.getCenter().getY() - triangle.getCenter().getY();
+//			double endYdelta = line.getEnd().getY() - triangle.getCenter().getY();
+//			
+//			Point2D.Double center = line.getCenter();
+//			Point2D.Double end = line.getEnd();
+//			
+//			line.setCenter(new Point2D.Double(center.getX() + changeX, center.getY() + changeY));
+//			line.setEnd(new Point2D.Double(end.getX() + changeX, end.getY() + changeY));
+//			Model.instance().setShapeByIndex(currentShapeIndex, line);
+//		}
 	}
 	
 	public void handleShapeTransformation(MouseEvent arg0) {
