@@ -604,7 +604,7 @@ class CS355Frame extends javax.swing.JFrame implements KeyListener, MouseListene
 	 *				Generally, this isn't needed.
 	 */
     private void colorBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_colorBtnActionPerformed
-		Color c = JColorChooser.showDialog(rootPane, "Pick a Color; any Color!", Color.yellow);
+		Color c = JColorChooser.showDialog(rootPane, "Pick a Color; any Color!", Color.green);
 		controller.colorButtonHit(c);
     }//GEN-LAST:event_colorBtnActionPerformed
 
