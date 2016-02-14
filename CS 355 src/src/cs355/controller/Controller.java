@@ -38,7 +38,7 @@ public class Controller implements CS355Controller {
 	}
 	
 	public enum Mode {
-		SHAPE, SELECT, ZOOM_IN, ZOOM_OUT, NONE
+		SHAPE, SELECT, NONE
 	}
 	
 	public int getCurrentShapeIndex() {
@@ -273,14 +273,12 @@ public class Controller implements CS355Controller {
 
 	@Override
 	public void zoomInButtonHit() {
-		// TODO Auto-generated method stub
-		switchStates(Mode.ZOOM_IN);
+		zoom = zoom * 2;
 	}
 
 	@Override
 	public void zoomOutButtonHit() {
-		// TODO Auto-generated method stub
-		switchStates(Mode.ZOOM_OUT);
+		zoom = zoom/2;
 	}
 	
 	public void switchStates(Mode m) {
