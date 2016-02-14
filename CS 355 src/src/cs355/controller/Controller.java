@@ -12,11 +12,30 @@ import cs355.model.drawing.*;
 
 public class Controller implements CS355Controller {
 
-	private int currentShapeIndex = -1;
-	private boolean rotating = false;
-	private Point2D.Double mouseDragStart = null;
-	private ArrayList<Point2D> triangleCoordinates = new ArrayList<>();
-	private Mode controllerMode = Mode.NONE;
+	private static Controller _instance;
+	
+	private int currentShapeIndex;
+	private double zoom;
+	private boolean rotating;
+	private Point2D.Double mouseDragStart;
+	private ArrayList<Point2D> triangleCoordinates;
+	private Mode controllerMode;
+
+	//If the model had not been initialized, it will be.
+	public static Controller instance() {
+		if (_instance == null) 
+			_instance = new Controller();
+		return _instance;
+	}
+	
+	private Controller() {
+		this.currentShapeIndex = -1;
+		this.zoom = 1.0;
+		this.rotating = false;
+		this.mouseDragStart = null;
+		triangleCoordinates = new ArrayList<>();
+		controllerMode = Mode.NONE;
+	}
 	
 	public enum Mode {
 		SHAPE, SELECT, ZOOM_IN, ZOOM_OUT, NONE

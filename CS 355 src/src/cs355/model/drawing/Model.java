@@ -27,7 +27,7 @@ public class Model extends CS355Drawing {
 		return _instance;
 	}
 	
-	public Model() {
+	private Model() {
 		currentShape = Shape.type.NONE;
 		selectedColor = Color.WHITE;
 		selectedShapeIndex = -1;

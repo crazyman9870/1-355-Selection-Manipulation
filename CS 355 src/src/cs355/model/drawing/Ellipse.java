@@ -1,6 +1,7 @@
 package cs355.model.drawing;
 
 import java.awt.Color;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 /**
@@ -75,13 +76,15 @@ public class Ellipse extends Shape {
 	 */
 	@Override
 	public boolean pointInShape(Point2D.Double pt, double tolerance) {
-		
-		double lengthX = pt.getX() - center.getX();
-		double lengthY = pt.getY() - center.getY();
+		AffineTransform worldToObj = new AffineTransform();
+		worldToObj.rotate(-rotation);
+		worldToObj.translate(-center.getX(), -center.getY());
+		worldToObj.transform(pt, pt);
+
 		double radiusX = width/2 + tolerance;
 		double radiusY = height/2 + tolerance;
-		double diameterX = Math.pow(lengthX, 2) / Math.pow(radiusX, 2);
-		double diameterY = Math.pow((lengthY), 2) / Math.pow(radiusY, 2);
+		double diameterX = Math.pow(pt.getX(), 2) / Math.pow(radiusX, 2);
+		double diameterY = Math.pow(pt.getY(), 2) / Math.pow(radiusY, 2);
 		
 		if(diameterX + diameterY <= 1)
 			System.out.println("Ellipse Selected");
